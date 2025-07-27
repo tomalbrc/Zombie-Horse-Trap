@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "zombie-horse-trap",
+  "version": "${version}",
+  "name": "Zombie Horse Trap",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/zombie-horse-trap/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "de.tomalbrc.zombiehorsetrap.ZombieHorseTrap"
+    ]
+  },
+  "mixins": [
+    "zombie-horse-trap.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

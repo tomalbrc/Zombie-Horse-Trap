@@ -7,8 +7,8 @@
   "authors": ["tomalbrc"],
   "contact": {},
   "license": "LGPL-3.0",
-  "icon": "assets/zombie-horse-trap/icon.png",
-  "environment": "server",
+  "icon": "zht-icon.png",
+  "environment": "*",
   "entrypoints": {
     "main": [
       "de.tomalbrc.zombiehorsetrap.ZombieHorseTrap"

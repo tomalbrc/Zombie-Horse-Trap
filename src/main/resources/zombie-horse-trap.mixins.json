@@ -3,13 +3,11 @@
   "minVersion": "0.8",
   "package": "de.tomalbrc.zombiehorsetrap.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
+  "server": [
     "AbstractHorseMixin",
     "ServerLevelInvoker",
     "ServerLevelMixin",
     "ZombieHorseMixin"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1

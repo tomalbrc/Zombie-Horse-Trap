@@ -3,10 +3,10 @@ package de.tomalbrc.zombiehorsetrap.impl;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
@@ -38,9 +38,9 @@ public class ZombieTrapGoal extends Goal {
         ((IZombieHorseTrap)this.horse).zht$setTrap(false);
         this.horse.setTamed(true);
         this.horse.setAge(0);
-        LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel);
+        LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
         if (lightningBolt != null) {
-            lightningBolt.moveTo(this.horse.getX(), this.horse.getY(), this.horse.getZ());
+            lightningBolt.setPos(this.horse.getX(), this.horse.getY(), this.horse.getZ());
             lightningBolt.setVisualOnly(true);
             serverLevel.addFreshEntity(lightningBolt);
 
@@ -74,9 +74,9 @@ public class ZombieTrapGoal extends Goal {
 
     @Nullable
     private AbstractHorse createHorse(DifficultyInstance difficultyInstance) {
-        ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.horse.level());
+        ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.horse.level(), EntitySpawnReason.TRIGGERED);
         if (zombieHorse != null) {
-            zombieHorse.finalizeSpawn((ServerLevel)this.horse.level(), difficultyInstance, MobSpawnType.TRIGGERED, null);
+            zombieHorse.finalizeSpawn((ServerLevel)this.horse.level(), difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             zombieHorse.setPos(this.horse.getX(), this.horse.getY(), this.horse.getZ());
             zombieHorse.invulnerableTime = 60;
             zombieHorse.setPersistenceRequired();
@@ -89,10 +89,10 @@ public class ZombieTrapGoal extends Goal {
 
     @Nullable
     private Zombie createZombie(DifficultyInstance difficultyInstance, Vec3 pos, Level level) {
-        Zombie zombie = EntityType.ZOMBIE.create(level);
+        Zombie zombie = EntityType.ZOMBIE.create(level, EntitySpawnReason.TRIGGERED);
         if (zombie != null) {
             zombie.setBaby(level.getRandom().nextBoolean());
-            zombie.finalizeSpawn((ServerLevel)level, difficultyInstance, MobSpawnType.TRIGGERED, null);
+            zombie.finalizeSpawn((ServerLevel)level, difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             zombie.setPos(pos);
             zombie.invulnerableTime = 60;
             zombie.setPersistenceRequired();
@@ -109,9 +109,9 @@ public class ZombieTrapGoal extends Goal {
 
     @Nullable
     private Witch createWitch(DifficultyInstance difficultyInstance, Vec3 pos, Level level) {
-        Witch witch = EntityType.WITCH.create(level);
+        Witch witch = EntityType.WITCH.create(level, EntitySpawnReason.TRIGGERED);
         if (witch != null) {
-            witch.finalizeSpawn((ServerLevel)level, difficultyInstance, MobSpawnType.TRIGGERED, null);
+            witch.finalizeSpawn((ServerLevel)level, difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             witch.setPos(pos);
             witch.invulnerableTime = 60;
             witch.setPersistenceRequired();

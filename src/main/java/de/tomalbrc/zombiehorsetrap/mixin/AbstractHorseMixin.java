@@ -7,6 +7,8 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,7 +31,7 @@ public abstract class AbstractHorseMixin extends Animal {
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At(value = "RETURN"))
-    public void zht$addAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
+    public void zht$addAdditionalSaveData(ValueOutput compoundTag, CallbackInfo ci) {
         if ((Object)this instanceof ZombieHorse) {
             compoundTag.putBoolean("ZombieTrap", ((IZombieHorseTrap)this).zht$isTrap());
             compoundTag.putInt("ZombieTrapTime", ((IZombieHorseTrap)this).zht$trapTime());
@@ -37,10 +39,10 @@ public abstract class AbstractHorseMixin extends Animal {
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At(value = "RETURN"))
-    public void zht$readAdditionalSaveData(CompoundTag compoundTag, CallbackInfo ci) {
+    public void zht$readAdditionalSaveData(ValueInput compoundTag, CallbackInfo ci) {
         if ((Object)this instanceof ZombieHorse) {
-            if (compoundTag.contains("ZombieTrap")) ((IZombieHorseTrap)this).zht$setTrap(compoundTag.getBoolean("ZombieTrap"));
-            if (compoundTag.contains("ZombieTrapTime")) ((IZombieHorseTrap)this).zht$setTrapTime(compoundTag.getInt("ZombieTrapTime"));
+            ((IZombieHorseTrap)this).zht$setTrap(compoundTag.getBooleanOr("ZombieTrap", false));
+            ((IZombieHorseTrap)this).zht$setTrapTime(compoundTag.getIntOr("ZombieTrapTime", 0));
         }
     }
 }

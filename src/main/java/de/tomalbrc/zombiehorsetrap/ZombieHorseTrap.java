@@ -6,6 +6,7 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.animal.horse.ZombieHorse;
@@ -33,7 +34,7 @@ public class ZombieHorseTrap implements ModInitializer {
                 DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(blockPos);
                 boolean canSpawn = serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && serverLevel.random.nextDouble() < (double)difficulty.getEffectiveDifficulty() * 0.01 && !serverLevel.getBlockState(blockPos.below()).is(Blocks.LIGHTNING_ROD);
                 if (canSpawn) {
-                    ZombieHorse horse = EntityType.ZOMBIE_HORSE.create(serverLevel);
+                    ZombieHorse horse = EntityType.ZOMBIE_HORSE.create(serverLevel, EntitySpawnReason.TRIGGERED);
                     if (horse != null) {
                         ((IZombieHorseTrap)horse).zht$setTrap(true);
                         horse.setAge(0);
@@ -42,9 +43,9 @@ public class ZombieHorseTrap implements ModInitializer {
                     }
                 }
 
-                LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel);
+                LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
                 if (lightningBolt != null) {
-                    lightningBolt.moveTo(Vec3.atBottomCenterOf(blockPos));
+                    lightningBolt.setPos(Vec3.atBottomCenterOf(blockPos));
                     lightningBolt.setVisualOnly(canSpawn);
                     serverLevel.addFreshEntity(lightningBolt);
                 }

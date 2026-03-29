@@ -9,11 +9,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.animal.horse.ZombieHorse;
+import net.minecraft.world.entity.animal.equine.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.phys.Vec3;
 
 public class ZombieHorseTrap implements ModInitializer {
@@ -32,7 +32,7 @@ public class ZombieHorseTrap implements ModInitializer {
             BlockPos blockPos = ((ServerLevelInvoker)(serverLevel)).invokeFindLightningTargetAround(serverLevel.getBlockRandomPos(minBlockX, 0, minBlockZ, 15));
             if (serverLevel.isRainingAt(blockPos)) {
                 DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(blockPos);
-                boolean canSpawn = serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && serverLevel.random.nextDouble() < (double)difficulty.getEffectiveDifficulty() * 0.01 && !serverLevel.getBlockState(blockPos.below()).is(Blocks.LIGHTNING_ROD);
+                boolean canSpawn = serverLevel.getGameRules().get(GameRules.SPAWN_MOBS) && serverLevel.getRandom().nextDouble() < (double)difficulty.getEffectiveDifficulty() * 0.01 && !serverLevel.getBlockState(blockPos.below()).is(Blocks.LIGHTNING_ROD);
                 if (canSpawn) {
                     ZombieHorse horse = EntityType.ZOMBIE_HORSE.create(serverLevel, EntitySpawnReason.TRIGGERED);
                     if (horse != null) {

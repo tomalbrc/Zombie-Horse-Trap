@@ -1,11 +1,10 @@
 package de.tomalbrc.zombiehorsetrap.mixin;
 
 import de.tomalbrc.zombiehorsetrap.impl.IZombieHorseTrap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.animal.horse.ZombieHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.ZombieHorse;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -20,7 +19,7 @@ public abstract class AbstractHorseMixin extends Animal {
         super(entityType, level);
     }
 
-    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/horse/AbstractHorse;level()Lnet/minecraft/world/level/Level;", ordinal = 0), cancellable = true)
+    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/equine/AbstractHorse;level()Lnet/minecraft/world/level/Level;", ordinal = 0), cancellable = true)
     private void zht$trapTick(CallbackInfo ci) {
         if ((Object)this instanceof ZombieHorse zombieHorse && ((IZombieHorseTrap)zombieHorse).zht$isTrap()) {
             if (((IZombieHorseTrap)zombieHorse).zht$getAndIncreaseTrapTime() >= 18000) {

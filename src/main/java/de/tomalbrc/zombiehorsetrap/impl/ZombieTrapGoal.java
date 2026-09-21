@@ -75,7 +75,7 @@ public class ZombieTrapGoal extends Goal {
         if (zombieHorse != null) {
             zombieHorse.finalizeSpawn((ServerLevel)this.horse.level(), difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             zombieHorse.setPos(this.horse.getX(), this.horse.getY(), this.horse.getZ());
-            zombieHorse.invulnerableTime = 60;
+            zombieHorse.setInvulnerableTime(60);
             zombieHorse.setPersistenceRequired();
             zombieHorse.setTamed(true);
             zombieHorse.setAge(0);
@@ -91,7 +91,7 @@ public class ZombieTrapGoal extends Goal {
             zombie.setBaby(level.getRandom().nextBoolean());
             zombie.finalizeSpawn((ServerLevel)level, difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             zombie.setPos(pos);
-            zombie.invulnerableTime = 60;
+            zombie.setInvulnerableTime(60);
             zombie.setPersistenceRequired();
             if (zombie.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
                 zombie.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
@@ -110,7 +110,7 @@ public class ZombieTrapGoal extends Goal {
         if (witch != null) {
             witch.finalizeSpawn((ServerLevel)level, difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             witch.setPos(pos);
-            witch.invulnerableTime = 60;
+            witch.setInvulnerableTime(60);
             witch.setPersistenceRequired();
         }
 

@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.animal.equine.ZombieHorse;
 import net.minecraft.world.level.ChunkPos;
@@ -32,9 +33,9 @@ public class ZombieHorseTrap implements ModInitializer {
             BlockPos blockPos = ((ServerLevelInvoker)(serverLevel)).invokeFindLightningTargetAround(serverLevel.getBlockRandomPos(minBlockX, 0, minBlockZ, 15));
             if (serverLevel.isRainingAt(blockPos)) {
                 DifficultyInstance difficulty = serverLevel.getCurrentDifficultyAt(blockPos);
-                boolean canSpawn = serverLevel.getGameRules().get(GameRules.SPAWN_MOBS) && serverLevel.getRandom().nextDouble() < (double)difficulty.getEffectiveDifficulty() * 0.01 && !serverLevel.getBlockState(blockPos.below()).is(Blocks.LIGHTNING_ROD);
+                boolean canSpawn = serverLevel.getGameRules().get(GameRules.SPAWN_MOBS) && serverLevel.getRandom().nextDouble() < (double)difficulty.getEffectiveDifficulty() * 0.01 && !Blocks.LIGHTNING_ROD.asList().stream().anyMatch(x -> serverLevel.getBlockState(blockPos.below()).is(x));
                 if (canSpawn) {
-                    ZombieHorse horse = EntityType.ZOMBIE_HORSE.create(serverLevel, EntitySpawnReason.TRIGGERED);
+                    ZombieHorse horse = EntityTypes.ZOMBIE_HORSE.create(serverLevel, EntitySpawnReason.TRIGGERED);
                     if (horse != null) {
                         ((IZombieHorseTrap)horse).zht$setTrap(true);
                         horse.setAge(0);
@@ -43,7 +44,7 @@ public class ZombieHorseTrap implements ModInitializer {
                     }
                 }
 
-                LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
+                LightningBolt lightningBolt = EntityTypes.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
                 if (lightningBolt != null) {
                     lightningBolt.setPos(Vec3.atBottomCenterOf(blockPos));
                     lightningBolt.setVisualOnly(canSpawn);

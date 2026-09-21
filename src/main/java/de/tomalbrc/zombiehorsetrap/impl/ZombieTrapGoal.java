@@ -3,10 +3,7 @@ package de.tomalbrc.zombiehorsetrap.impl;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.animal.equine.ZombieHorse;
@@ -38,7 +35,7 @@ public class ZombieTrapGoal extends Goal {
         ((IZombieHorseTrap)this.horse).zht$setTrap(false);
         this.horse.setTamed(true);
         this.horse.setAge(0);
-        LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
+        LightningBolt lightningBolt = EntityTypes.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
         if (lightningBolt != null) {
             lightningBolt.setPos(this.horse.getX(), this.horse.getY(), this.horse.getZ());
             lightningBolt.setVisualOnly(true);
@@ -74,7 +71,7 @@ public class ZombieTrapGoal extends Goal {
 
     @Nullable
     private AbstractHorse createHorse(DifficultyInstance difficultyInstance) {
-        ZombieHorse zombieHorse = EntityType.ZOMBIE_HORSE.create(this.horse.level(), EntitySpawnReason.TRIGGERED);
+        ZombieHorse zombieHorse = EntityTypes.ZOMBIE_HORSE.create(this.horse.level(), EntitySpawnReason.TRIGGERED);
         if (zombieHorse != null) {
             zombieHorse.finalizeSpawn((ServerLevel)this.horse.level(), difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             zombieHorse.setPos(this.horse.getX(), this.horse.getY(), this.horse.getZ());
@@ -89,7 +86,7 @@ public class ZombieTrapGoal extends Goal {
 
     @Nullable
     private Zombie createZombie(DifficultyInstance difficultyInstance, Vec3 pos, Level level) {
-        Zombie zombie = EntityType.ZOMBIE.create(level, EntitySpawnReason.TRIGGERED);
+        Zombie zombie = EntityTypes.ZOMBIE.create(level, EntitySpawnReason.TRIGGERED);
         if (zombie != null) {
             zombie.setBaby(level.getRandom().nextBoolean());
             zombie.finalizeSpawn((ServerLevel)level, difficultyInstance, EntitySpawnReason.TRIGGERED, null);
@@ -109,7 +106,7 @@ public class ZombieTrapGoal extends Goal {
 
     @Nullable
     private Witch createWitch(DifficultyInstance difficultyInstance, Vec3 pos, Level level) {
-        Witch witch = EntityType.WITCH.create(level, EntitySpawnReason.TRIGGERED);
+        Witch witch = EntityTypes.WITCH.create(level, EntitySpawnReason.TRIGGERED);
         if (witch != null) {
             witch.finalizeSpawn((ServerLevel)level, difficultyInstance, EntitySpawnReason.TRIGGERED, null);
             witch.setPos(pos);
